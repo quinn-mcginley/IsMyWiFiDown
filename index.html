@@ -5,66 +5,63 @@
 <title>Is My Wi‑Fi Down?</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-  :root {
-    --up:   #d4ffd4;
-    --down: #ffd6d6;
-    font-family: system-ui, sans-serif;
+  :root{
+    --up:#d4ffd4;
+    --down:#ffd6d6;
+    font-family:system-ui,sans-serif;
   }
-  body {
+  body{
     margin:0;
-    display:grid;
-    place-items:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
     height:100vh;
     background:#fefefe;
+    text-align:center;
   }
-  h1   { font-size:8rem; margin:0; user-select:none; }
-  small{ margin-top:.5rem; color:#666 }
+  h2{font-size:2rem;margin:.2rem 0}
+  h1{font-size:8rem;margin:0;line-height:1}
+  small{margin:2rem 0 0;color:#666}
 </style>
 </head>
 <body>
-  <div style="text-align:center">
-    <h1 id="answer">…checking…</h1>
-    <small id="stamp"></small>
-  </div>
+  <h2>Is my Wi‑Fi down?</h2>
+  <h1 id="answer">…checking…</h1>
+  <small id="stamp"></small>
 
-<!-- ——— Wi‑Fi probe script ——— -->
 <script>
-const answer = document.getElementById("answer");
-const stamp  = document.getElementById("stamp");
+const answer=document.getElementById("answer");
+const stamp =document.getElementById("stamp");
 
-async function probe() {
-  const bust = location.href.split("#")[0] + "?t=" + Date.now();
-  try {
-    await fetch(bust, { cache:"no-store", mode:"no-cors" });
+async function probe(){
+  const bust=location.href.split("#")[0]+"?t="+Date.now();
+  try{
+    await fetch(bust,{cache:"no-store",mode:"no-cors"});
     show(true);
-  } catch (_) { show(false); }
+  }catch(_){show(false);}  
 }
-
-function show(up) {
-  document.body.style.background = up ? "var(--up)" : "var(--down)";
-  answer.textContent             = up ? "Nope." : "Yep.";
-  stamp.textContent              = "Last check: " +
-                                   new Date().toLocaleTimeString();
+function show(up){
+  document.body.style.background=up?"var(--up)":"var(--down)";
+  answer.textContent            =up?"Nope.":"Yep.";
+  stamp.textContent="Last check: "+new Date().toLocaleTimeString();
 }
-
-probe();                     // first run
-setInterval(probe, 15_000);  // every 15 s
-window.addEventListener("online",  () => show(true));
-window.addEventListener("offline", () => show(false));
+probe();
+setInterval(probe,15000);
+window.addEventListener("online", ()=>show(true));
+window.addEventListener("offline",()=>show(false));
 </script>
 
-<!-- ——— Ko‑Fi floating button (larger, custom text) ——— -->
+<!-- Ko‑fi floating chat button -->
 <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
 <script>
-kofiWidgetOverlay.draw('ismywifidown', {
-  type: 'floating-chat',
-  // new label
-  'floating-chat.donateButton.text': 'Support this important work',
-  // style overrides ↓
-  'floating-chat.donateButton.background-color': '#29abe0',
-  'floating-chat.donateButton.text-color': '#ffffff',
-  // make it 25 % wider & bump the font
-  'floating-chat.donateButton.width': '220px',
-  'floating-chat.donateButton.font-size': '1.05rem'
+kofiWidgetOverlay.draw('ismywifidown',{
+  type:'floating-chat',
+  'floating-chat.donateButton.text':'Pay for SAAS',
+  'floating-chat.donateButton.background-color':'#29abe0',
+  'floating-chat.donateButton.text-color':'#ffffff',
+  'floating-chat.donateButton.font-size':'1.05rem'
 });
 </script>
+</body>
+</html>
