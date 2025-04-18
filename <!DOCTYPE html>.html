@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Is My Wi‑Fi Down?</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root {
+    --up:   #d4ffd4;
+    --down: #ffd6d6;
+    font-family: system-ui, sans-serif;
+  }
+  body {
+    margin:0;
+    display:grid;
+    place-items:center;
+    height:100vh;
+    background:#fefefe;
+  }
+  h1   { font-size:8rem; margin:0; user-select:none; }
+  small{ margin-top:.5rem; color:#666 }
+</style>
+</head>
+<body>
+  <div style="text-align:center">
+    <h1 id="answer">…checking…</h1>
+    <small id="stamp"></small>
+  </div>
+
+<!-- ——— Wi‑Fi probe script ——— -->
+<script>
+const answer = document.getElementById("answer");
+const stamp  = document.getElementById("stamp");
+
+async function probe() {
+  const bust = location.href.split("#")[0] + "?t=" + Date.now();
+  try {
+    await fetch(bust, { cache:"no-store", mode:"no-cors" });
+    show(true);
+  } catch (_) { show(false); }
+}
+
+function show(up) {
+  document.body.style.background = up ? "var(--up)" : "var(--down)";
+  answer.textContent             = up ? "Nope." : "Yep.";
+  stamp.textContent              = "Last check: " +
+                                   new Date().toLocaleTimeString();
+}
+
+probe();                     // first run
+setInterval(probe, 15_000);  // every 15 s
+window.addEventListener("online",  () => show(true));
+window.addEventListener("offline", () => show(false));
+</script>
+
+<!-- ——— Ko‑Fi floating button ——— -->
+<script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+<script>
+kofiWidgetOverlay.draw('ismywifidown', {
+  'type':                          'floating-chat',
+  'floating-chat.donateButton.text':            'Buy me a coffee',
+  'floating-chat.donateButton.background-color':'#29abe0',
+  'floating-chat.donateButton.text-color':      '#ffffff'
+});
+</script>
+</body>
+</html>
