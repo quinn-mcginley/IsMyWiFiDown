@@ -53,18 +53,3 @@ window.addEventListener("online",  () => show(true));
 window.addEventListener("offline", () => show(false));
 </script>
 
-<!-- ——— Ko‑Fi floating button (larger, custom text) ——— -->
-<script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
-<script>
-kofiWidgetOverlay.draw('ismywifidown', {
-  type: 'floating-chat',
-  // new label
-  'floating-chat.donateButton.text': 'Support this important work',
-  // style overrides ↓
-  'floating-chat.donateButton.background-color': '#29abe0',
-  'floating-chat.donateButton.text-color': '#ffffff',
-  // make it 25 % wider & bump the font
-  'floating-chat.donateButton.width': '220px',
-  'floating-chat.donateButton.font-size': '1.05rem'
-});
-</script>
